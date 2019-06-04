@@ -1,39 +1,5 @@
-
 //*******************PALETTES******************//
 #define N_PALETTES 7
-
-CRGBPalette16 palettes[N_PALETTES];
-CRGBPalette16 cPalette;
-
-void setupPalettes(){
-  palettes[0] = RainbowColors_p;
-  palettes[1] = PartyColors_p;
-  palettes[2] = CRGBPalette16(CRGB::Red, CRGB::Red, CRGB::Black, CRGB::Black,
-                              CRGB::Black, CRGB::Blue, CRGB::Blue, CRGB::Black,
-                              CRGB::Black, CRGB::Black, CRGB::Green, CRGB::Green,
-                              CRGB::Black, CRGB::Black, CRGB::Black, CRGB::Black);
-
-  palettes[3] = CRGBPalette16(CRGB::Blue, CRGB::Blue, CRGB::White, CRGB::Blue,
-                              CRGB::Blue, CRGB::Red, CRGB::Red, CRGB::White,
-                              CRGB::Red, CRGB::Red, CRGB::White, CRGB::Red,
-                              CRGB::Red, CRGB::White, CRGB::Black, CRGB::Black);
-                              
-  CRGB pr = CHSV(205, 255, 255);
-  CRGB go = CHSV( 30, 255, 255);
-  CRGB bl = CHSV(  0,   0,   0); 
-  palettes[4] = CRGBPalette16(pr, pr, pr, pr, bl, go, go, go, bl, pr, pr, pr, pr, bl, bl, bl);
-  
-  CRGB li = CHSV( 81, 255, 255);
-  CRGB nv = CHSV(153, 155, 200);
-  CRGB gr = CHSV(  0,   0, 145);
-  CRGB wh = CHSV(  0,   0, 255);
-  palettes[5] = CRGBPalette16(li, li, li, nv, nv, nv, nv, nv, li, li, li, bl, bl, bl, wh, wh);
-
-  wh = CHSV(37, 80, 255);
-  CRGB br = CHSV(33, 192, 192);
-  palettes[6] = CRGBPalette16(br, bl, wh, wh, bl, wh, br, br, bl, br, br, br, br, bl, bl, bl);
-  cPalette = palettes[0];
-}
 
 CRGB rColor(uint8_t h, uint8_t v){
   if(h < 96) return ColorFromPalette(HeatColors_p, map(h, 0, 95, 64, 160), v, LINEARBLEND);
@@ -43,9 +9,46 @@ CRGB rColor(uint8_t h, uint8_t v){
 CRGBPalette16 randomPalette(){
   CRGBPalette16 palette;
   if(random8() < 16){
-    palette = palettes[random(N_PALETTES)];
-  }
-  else{
+    int index = random(N_PALETTES);
+    if(index == 0){
+      palette = RainbowColors_p;
+    }
+    if(index == 1){
+      palette = PartyColors_p;
+    }
+    if(index == 2){
+      palette = CRGBPalette16(CRGB::Red, CRGB::Red, CRGB::Black, CRGB::Black,
+                                CRGB::Black, CRGB::Blue, CRGB::Blue, CRGB::Black,
+                                CRGB::Black, CRGB::Black, CRGB::Green, CRGB::Green,
+                                CRGB::Black, CRGB::Black, CRGB::Black, CRGB::Black);
+    }
+    if(index == 3){
+      palette = CRGBPalette16(CRGB::Blue, CRGB::Blue, CRGB::White, CRGB::Blue,
+                                CRGB::Blue, CRGB::Red, CRGB::Red, CRGB::White,
+                                CRGB::Red, CRGB::Red, CRGB::White, CRGB::Red,
+                                CRGB::Red, CRGB::White, CRGB::Black, CRGB::Black);
+    }
+    if(index == 4){
+      CRGB pr = CHSV(205, 255, 255);
+      CRGB go = CHSV( 30, 255, 255);
+      CRGB bl = CHSV(  0,   0,   0); 
+      palette = CRGBPalette16(pr, pr, pr, pr, bl, go, go, go, bl, pr, pr, pr, pr, bl, bl, bl);
+    }
+    if(index == 5){
+      CRGB li = CHSV( 81, 255, 255);
+      CRGB nv = CHSV(153, 155, 200);
+      CRGB gr = CHSV(  0,   0, 145);
+      CRGB wh = CHSV(  0,   0, 255);
+      CRGB bl = CHSV(  0,   0,   0); 
+      palette = CRGBPalette16(li, li, li, nv, nv, nv, nv, nv, li, li, li, bl, bl, bl, wh, wh);
+    }
+    if(index == 6){
+      CRGB wh = CHSV(37, 80, 255);
+      CRGB br = CHSV(33, 192, 192);
+      CRGB bl = CHSV(  0,   0,   0); 
+      palette =CRGBPalette16(br, bl, wh, wh, bl, wh, br, br, bl, br, br, br, br, bl, bl, bl);
+    }
+  } else {
     //**************************GENERATE RANDOM COLOR PALETTE*******************************//
     uint8_t PRESET = random8(5);
     if(PRESET == 0){
@@ -158,4 +161,3 @@ CRGBPalette16 randomPalette(){
   }
   return palette;
 }
-

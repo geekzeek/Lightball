@@ -2,8 +2,8 @@
 #include <EEPROM.h>
 
 //********************LEDS********************//
-#define WIDTH 5
-#define LENGTH 13
+#define WIDTH 3
+#define LENGTH 10
 
 uint8_t TIME = 0;
 
@@ -17,36 +17,39 @@ void incrementRandomSeed(uint8_t increment){
 }
 
 void setup() {
-  FastLED.addLeds<NEOPIXEL, 3>(leds[0], 13);
-  FastLED.addLeds<NEOPIXEL, 5>(leds[1], 13);
-  FastLED.addLeds<NEOPIXEL, 6>(leds[2], 13);
-  FastLED.addLeds<NEOPIXEL, 9>(leds[3], 13);
-  FastLED.addLeds<NEOPIXEL, 10>(leds[4], 13);
+  FastLED.addLeds<NEOPIXEL, 3>(leds[0], LENGTH);
+  FastLED.addLeds<NEOPIXEL, 6>(leds[1], LENGTH);
+  FastLED.addLeds<NEOPIXEL, 5>(leds[2], LENGTH);
+  // FastLED.addLeds<NEOPIXEL, 9>(leds[3], 13);
+  // FastLED.addLeds<NEOPIXEL, 10>(leds[4], 13);
   FastLED.setBrightness(0);
   
   randomSeed(word(EEPROM.read(0), EEPROM.read(1)));
-
-  setupPalettes();
-
+  
   Serial.begin(9600);
   Serial.println(word(EEPROM.read(0), EEPROM.read(1)));
   Serial.end();
-  
 }
 
 void loop() {
-  if(analogRead(0) > 1){
-    switch(random(2)){
-      case 0:
-        barberPole();
-        break;
-      case 1:
-        vortexPole();
-        break;
+  switch(1){
+    case 0:
+      barberPole();
+      break;
+    case 1:
+      vortexPole();
+      break;
+  }
+
+  incrementRandomSeed(1);
+
+  int i, j;
+  for(i = 0; i < WIDTH; i++){
+    for(j = 0; j < LENGTH; j++){
+      leds[i][j] = CRGB::Black;
     }
   }
-  else{
-    incrementRandomSeed(TIME);
-  }
-  delay(1000);
+  FastLED.show();
+
+  delay(map(getEntropy(), 1, 1024, 1000, 50));
 }
